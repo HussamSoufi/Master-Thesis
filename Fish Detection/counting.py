@@ -51,7 +51,8 @@ class Object_Detector():
         for i in range(100):
             if scores is None or final_score[i] > 0.05:
                     count = count + 1
-        print(count)
+        if count != 0:
+            print(count)
         if count is not 0:
             with open("./fishcount.csv", "a") as log:
                 log.write("{0},{1},\n".format(strftime("%Y-%m-%d %H:%M:%S"),str(count)))
