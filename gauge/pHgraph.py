@@ -10,7 +10,7 @@ df['Date'] = df['Date'].map(lambda x: datetime.strptime(str(x), '%Y-%m-%d %H:%M:
 
 
 x = df['Date']
-y = df['pH']
+y = df['pH'] #change to the needed field
 
 
 # plot

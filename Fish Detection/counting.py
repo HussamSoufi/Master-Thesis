@@ -7,6 +7,8 @@ import cv2
 import matplotlib.pyplot as plt
 import csv
 
+Threshold = 0.05
+
 class Object_Detector():
     def __init__(self, model_path):
         self.__load_model(model_path)
@@ -48,8 +50,8 @@ class Object_Detector():
           feed_dict={self.image_tensor: np.expand_dims(image_np, axis=0)})
         final_score = np.squeeze(scores)    
         count = 0
-        for i in range(100):
-            if scores is None or final_score[i] > 0.05:
+        for i in range(300):
+            if scores is None or final_score[i] > Threshold:
                     count = count + 1
         if count != 0:
             print(count)
@@ -68,14 +70,13 @@ class Object_Detector():
 
         return image_np
 
-# MODEL_PATH = 'fish_ssd_fpn_graph/frozen_inference_graph.pb'
+#MODEL_PATH = 'fish_ssd_fpn_graph/frozen_inference_graph.pb'
 MODEL_PATH = 'fish_inception_v2_graph/frozen_inference_graph.pb'
 object_detector = Object_Detector(MODEL_PATH)
 
-
 img = cv2.imread('test_images/fish55.jpg')
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-img_ = object_detector.detect_image(img, score_thr=0.05)
+img_ = object_detector.detect_image(img, score_thr=Threshold)
 plt.figure(figsize=(20, 10))
 plt.imshow(img_)
 plt.show()

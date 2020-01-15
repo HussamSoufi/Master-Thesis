@@ -1,12 +1,12 @@
 #!/usr/bin/python
 
-import io         # used to create file streams
+import io       # used to create file streams
 from io import open
-import fcntl      # used to access I2C parameters like addresses
+import fcntl    # used to access I2C parameters like addresses
 from time import strftime
-import time # used for sleep delay and timestamps
-import string     # helps parse strings
-import socket #Server forms the listener socket while client reaches out to the server.
+import time 	# used for sleep delay and timestamps
+import string   # helps parse strings
+import socket   #Server forms the listener socket while client reaches out to the server.
 import struct
 import sys
 import threading #for sending the data to the server
@@ -20,20 +20,14 @@ class AtlasI2C:
 	current_addr = default_address
 
 	def __init__(self, address=default_address, bus=default_bus):
-		# open two file streams, one for reading and one for writing
-		# the specific I2C channel is selected with bus
-		# it is usually 1, except for older revisions where its 0
-		# wb and rb indicate binary read and write
+		# open two file streams, one for reading and one for writing. the specific I2C channel is selected with bus it is usually 1, except for older revisions where its 0, wb and rb indicate binary read and write
 		self.file_read = io.open("/dev/i2c-"+str(bus), "rb", buffering=0)
 		self.file_write = io.open("/dev/i2c-"+str(bus), "wb", buffering=0)
-
 		# initializes I2C to either a user specified or default address
 		self.set_i2c_address(address)
 
 	def set_i2c_address(self, addr):
-		# set the I2C communications to the slave specified by the address
-		# The commands for I2C dev using the ioctl functions are specified in
-		# the i2c-dev.h file from i2c-tools
+		# set the I2C communications to the slave specified by the address. The commands for I2C dev using the ioctl functions are specified in the i2c-dev.h file from i2c-tools
 		I2C_SLAVE = 0x703
 		fcntl.ioctl(self.file_read, I2C_SLAVE, addr)
 		fcntl.ioctl(self.file_write, I2C_SLAVE, addr)
@@ -108,86 +102,17 @@ dDO = AtlasI2C(97) #D.O
 dEC = AtlasI2C(100) #E.C
 
 
-
-
-# #send data through websockets, to use for NodeRed
-# server_ip = "" # Symbolic name meaning all available interfaces
-# server_port = 9999 # Arbitrary non-privileged port
-# server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-# print ('Socket created')
-
-
-# try: # Bind socket to local host and port
-#     server.bind((server_ip,server_port))
-# except socket.error as msg:
-#     print ('Bind error: ' + str(msg[0]) + ' Message ' + msg[1])
-#     sys.exit()
-
-# print ("[*] UDP_Server started on %s:%s" % server.getsockname())
 while True: # receive data from client (data, addr)
-    # data, addr = server.recvfrom(1024)
 	#to give the value of the device
 	pH = dpH.query("R") #pH
-	ORP = dORP.query("R") #ORP
 	Temp = dTemp.query("R") #Temperature
+	ORP = dORP.query("R") #ORP
 	DO = dDO.query("R") #D.O
 	EC = dEC.query("R") #E.C
 	result = pH + ", " + ORP + ", " + Temp + ", " + DO + ", " + EC
 	print(result)
-    # addr1 = (addr[0], 9998)
-    # #addr[1]=9999 #we send send the response to another port
-    # # send back a response: value ASCII encoded
-    # server.sendto(result,addr1)
 
+	#Open the CSV file and send the data there with the date
 	with open("/home/pi/cpu.csv", "a") as log:
 		log.write("{0},{1},{2},{3},{4},{5},\n".format(strftime("%Y-%m-%d %H:%M:%S"),float(pH),float(ORP),float(Temp),float(DO),float(EC)))
 		time.sleep(5)
-
-# 	# main loop
-# 	while True:
-# 		user_cmd = real_raw_input("Enter command: ")
-
-# 		if user_cmd.upper().startswith("LIST_ADDR"):
-# 			devices = device.list_i2c_devices()
-# 			for i in range(len (devices)):
-# 				print( devices[i])
-
-# 		# address command lets you change which address the Raspberry Pi will poll
-# 		elif user_cmd.upper().startswith("ADDRESS"):
-# 			addr = int(user_cmd.split(',')[1])
-# 			device.set_i2c_address(addr)
-# 			print("I2C address set to " + str(addr))
-
-# 		# continuous polling command automatically polls the board
-# 		elif user_cmd.upper().startswith("POLL"):
-# 			delaytime = float(string.split(user_cmd, ',')[1])
-
-# 			# check for polling time being too short, change it to the minimum timeout if too short
-# 			if delaytime < AtlasI2C.long_timeout:
-# 				print("Polling time is shorter than timeout, setting polling time to %0.2f" % AtlasI2C.long_timeout)
-# 				delaytime = AtlasI2C.long_timeout
-
-# 			# get the information of the board you're polling
-# 			info = string.split(device.query("I"), ",")[1]
-# 			print("Polling %s sensor every %0.2f seconds, press ctrl-c to stop polling" % (info, delaytime))
-
-# 			try:
-# 				while True:
-# 					print(device.query("R"))
-# 					time.sleep(delaytime - AtlasI2C.long_timeout)
-# 			except KeyboardInterrupt: 		# catches the ctrl-c command, which breaks the loop above
-# 				print("Continuous polling stopped")
-
-# 		# if not a special keyword, pass commands straight to board
-# 		else:
-# 			if len(user_cmd) == 0:
-# 				print( "Please input valid command.")
-# 			else:
-# 				try:
-# 					print(device.query(user_cmd))
-# 				except IOError:
-# 					print("Query failed \n - Address may be invalid, use List_addr command to see available addresses")
-
-
-# if __name__ == '__main__':
-# 	main()

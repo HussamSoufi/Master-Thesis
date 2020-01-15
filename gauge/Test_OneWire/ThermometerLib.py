@@ -56,7 +56,7 @@ class DrawBar(ini):
         self.range = int(self.max_value - self.min_value)
         self.tick = self.diff/ self.range
         self.arc1 = self.canvas.create_oval(4*self.dx,y-6*self.dx,10*self.dx, y,fill="red",width=0)
-        self.canvas.create_text(7*self.dx,y-3*self.dx, font=("Arial",int(self.dx),'bold'),fill="orange", text='SAM')
+        self.canvas.create_text(7*self.dx,y-3*self.dx, font=("Arial",int(self.dx),'bold'),fill="orange", text='ProTerra')
 
         self.rect1 =self.canvas.create_rectangle(5*self.dx, y-5*self.dx, 9*self.dx, self.redy,fill = "red",width=0)
         self.rect2 =self.canvas.create_rectangle(5*self.dx, self.dy, 9*self.dx, self.redy,fill = "gray",width=0)

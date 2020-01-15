@@ -8,16 +8,12 @@ import threading
 import ThermometerLib
 import gaugelib
 import sys
-#import RPi.GPIO as GPIO
 import csv
 import subprocess
 from subprocess import call
 import time
 import pandas as pd
 from datetime import datetime
-#import matplotlib as mpl
-#mpl.use('tkagg')    #YAAA!!  this finally makes the Damn thing work
-#import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import os
 
@@ -28,7 +24,7 @@ win.tk.call('wm', 'iconphoto', win._w, a5)
 win.title("ProTerra")
 win.geometry("700x400+0+0")
 win.resizable(width=True, height=True)
-win.configure(bg='white')
+win.configure(bg='gray10')
 def exitProgram():
     #if messagebox.askyesno("Print", "Exit?"):
         thread2.x=1
@@ -187,16 +183,7 @@ FCgraph = tk.Button(win,
         command= FCgraph,
         activebackground="dark gray")
 FCgraph.place(relx=0.6, rely=0.9)
-# def get_last_row(csv_filename):
-#     with open(csv_filename, 'r') as f:
-#         return deque(csv.reader(f), 1)[0]
 
-# lastline = ', '.join(get_last_row('cpu.csv'))
-# values = lastline.split("\t")
-# hp= values[1:3]
-
-#Date,pH,ORP,Temp,DO,EC,
-#phwert= df.iloc[-1][1]
 
 class OneWire_Thread (threading.Thread):
     def __init__(self):
