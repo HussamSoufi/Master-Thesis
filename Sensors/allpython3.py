@@ -1,16 +1,16 @@
 #!/usr/bin/python
-
 import io       # used to create file streams
 from io import open
 import fcntl    # used to access I2C parameters like addresses
 from time import strftime
 import time 	# used for sleep delay and timestamps
 import string   # helps parse strings
-import socket   #Server forms the listener socket while client reaches out to the server.
+import socket  # Server forms the listener socket while client reaches out to the server.
 import struct
 import sys
-import threading #for sending the data to the server
+import threading  # for sending the data to the server
 import csv
+
 
 class AtlasI2C:
 	long_timeout = 1.5         	# the timeout needed to query readings and calibrations
@@ -44,12 +44,12 @@ class AtlasI2C:
 		if type(res[0]) is str:					# if python2 read
 			response = [i for i in res if i != '\x00']
 			if ord(response[0]) == 1:             # if the response isn't an error
-		 		# change MSB to 0 for all received characters except the first and get a list of characters
-		 		# NOTE: having to change the MSB to 0 is a glitch in the raspberry pi, and you shouldn't have to do this!
-		 		char_list = list(map(lambda x: chr(ord(x) & ~0x80), list(response[1:])))
-		 		return ''.join(char_list)     # convert the char list to a string and returns it
+				# change MSB to 0 for all received characters except the first and get a list of characters
+				# NOTE: having to change the MSB to 0 is a glitch in the raspberry pi, and you shouldn't have to do this!
+				char_list = list(map(lambda x: chr(ord(x) & ~0x80), list(response[1:])))
+				return ''.join(char_list)     # convert the char list to a string and returns it
 			else:
-		 		return "Error " + str(ord(response[0]))
+				return "Error " + str(ord(response[0]))
 				
 		else:									# if python3 read
 			if res[0] == 1: 
@@ -75,7 +75,7 @@ class AtlasI2C:
 				i2c_devices.append(i)
 			except IOError:
 				pass
-		self.set_i2c_address(prev_addr) # restore the address we were using
+		self.set_i2c_address(prev_addr)  # restore the address we were using
 		return i2c_devices
 
 	def query(self, string):
