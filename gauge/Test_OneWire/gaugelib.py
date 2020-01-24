@@ -90,16 +90,16 @@ class DrawGauge2(ini):
                                outline = "red")#style=tk.PIESLICE
         self.canvas.create_arc(self.size/6, self.size/6, self.size-self.size/6, self.size-self.size/6,
                                width=self.size/10,style="arc", start=0, extent=60,
-                               outline = "orange")
+                               outline = "light green")
         self.canvas.create_arc(self.size/6, self.size/6, self.size-self.size/6, self.size-self.size/6,
                                width=self.size/10,style="arc",start=60, extent=60,
-                               outline = "yellow")
+                               outline = "green")
         self.canvas.create_arc(self.size/6, self.size/6, self.size-self.size/6, self.size-self.size/6,
                                width=self.size/10,style="arc",start=120, extent=60,
                                outline = "light green")
         self.canvas.create_arc(self.size/6, self.size/6, self.size-self.size/6, self.size-self.size/6,
                                width=self.size/10,style="arc",start=180, extent=60,
-                               outline = "green")
+                               outline = "red")
         self.readout = self.canvas.create_text(self.size/2,4*self.size/5, font=("Arial",int(self.size/18),'bold'),fill="white", text='')
         
     def draw_tick(self,divisions=100):

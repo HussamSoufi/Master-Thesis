@@ -55,13 +55,13 @@ class DrawBar(ini):
         self.diff = self.redy-2*self.dy
         self.range = int(self.max_value - self.min_value)
         self.tick = self.diff/ self.range
-        self.arc1 = self.canvas.create_oval(4*self.dx,y-6*self.dx,10*self.dx, y,fill="red",width=0)
+        self.arc1 = self.canvas.create_oval(4*self.dx,y-6*self.dx,10*self.dx, y,fill="cyan4",width=0)
         self.canvas.create_text(7*self.dx,y-3*self.dx, font=("Arial",int(self.dx),'bold'),fill="orange", text='ProTerra')
 
-        self.rect1 =self.canvas.create_rectangle(5*self.dx, y-5*self.dx, 9*self.dx, self.redy,fill = "red",width=0)
+        self.rect1 =self.canvas.create_rectangle(5*self.dx, y-5*self.dx, 9*self.dx, self.redy,fill = "cyan4",width=0)
         self.rect2 =self.canvas.create_rectangle(5*self.dx, self.dy, 9*self.dx, self.redy,fill = "gray",width=0)
         self.rect =self.canvas.create_rectangle(self.redx, self.redy, self.redx+self.redw, 2*self.dy,fill = "light gray",width=0)
-        self.rect3 =self.canvas.create_rectangle(self.redx, self.redy, self.redx+self.redw, self.redy-10,fill = "red",width=0)
+        self.rect3 =self.canvas.create_rectangle(self.redx, self.redy, self.redx+self.redw, self.redy-10,fill = "cyan4",width=0)
         for t in range(self.range +1):
             if (t%10) == 0:
                 label = str(self.min_value+t)
@@ -76,7 +76,7 @@ class DrawBar(ini):
         number = number if number > self.min_value else self.min_value
         degree = (number - self.min_value) * self.tick        
         self.canvas.delete(self.rect3)
-        self.rect3 =self.canvas.create_rectangle(self.redx, self.redy, self.redx+self.redw, self.redy-degree,fill = "red",width=0)
+        self.rect3 =self.canvas.create_rectangle(self.redx, self.redy, self.redx+self.redw, self.redy-degree,fill = "cyan4",width=0)
         label = str('%.2f' % number)  +"\n  "+ self.unit
         self.canvas.delete(self.readout)
         self.readout = self.canvas.create_text(11*self.dx,self.redy-degree, font=("Arial",int(self.dx),'bold'),fill="white", text=label,angle=0)
